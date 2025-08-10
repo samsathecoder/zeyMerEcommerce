@@ -1,41 +1,37 @@
 ﻿
+using AutoMapper;
 using ZeyMer.Application.Interfaces;
+using ZeyMer.Domain.Dtos.Product;
 using ZeyMer.Domain.Entities;
 using ZeyMer.Domain.Repositories;
 
 namespace ZeyMer.Application.Services
 {
-    public class ProductService : IProductService
+    public class ProductService : GenericService<Product, ProductCreateDto, ProductUpdateDto, ProductDto>, IProductService
     {
-        private readonly IProductRepository _productRepository;
-        private readonly IUnitOfWork _unitOfWork;
-
-        public ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork)
+        public ProductService(IProductRepository repo, IMapper mapper)
+            : base(repo, mapper)
         {
-            _productRepository = productRepository;
-            _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Product>> GetAllAsync()
+        public Task<Product> AddAsync(Product product)
         {
-            return await _productRepository.GetAllAsync();
+            throw new NotImplementedException();
         }
 
-        public async Task<Product?> GetByIdAsync(Guid id)
+        public Task<Product?> GetByIdAsync(Guid id)
         {
-            return await _productRepository.GetByIdAsync(id);
+            throw new NotImplementedException();
         }
 
-        public async Task<Product?> GetBySlugAsync(string slug)
+        public Task<Product?> GetBySlugAsync(string slug)
         {
-            return await _productRepository.GetBySlugAsync(slug);
+            throw new NotImplementedException();
         }
 
-        public async Task<Product> AddAsync(Product product)
+        Task<IEnumerable<Product>> IProductService.GetAllAsync()
         {
-            await _productRepository.AddAsync(product);
-            await _unitOfWork.SaveChangesAsync(); 
-            return product;
+            throw new NotImplementedException();
         }
     }
 }

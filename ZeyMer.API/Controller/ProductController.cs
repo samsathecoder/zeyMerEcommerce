@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ZeyMer.Application.Interfaces;
+using ZeyMer.Domain.Dtos.Product;
 using ZeyMer.Domain.Entities;
 
 namespace ZeyMer.API.Controller
@@ -15,12 +17,20 @@ namespace ZeyMer.API.Controller
             _productService = productService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpPost]
+        [Authorize(Roles = "Admin")] // sadece admin
+        public async Task<IActionResult> CreateProduct([FromBody] ProductCreateDto dto)
         {
-            var products = await _productService.GetAllAsync();
-            return Ok(products);
+            var product = await _productService.CreateAsync(dto);
+            return Ok(product);
         }
+
+        [HttpGet]
+        [AllowAnonymous] // herkese açık
+        public async Task<IActionResult> GetAll() => Ok(await _productService.GetAllAsync());
+
+    
+    
 
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
