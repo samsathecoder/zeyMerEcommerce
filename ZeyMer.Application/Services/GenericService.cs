@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using ZeyMer.Domain.Repositories;
@@ -9,7 +10,7 @@ using ZeyMer.Domain.Repositories;
 namespace ZeyMer.Application.Services
 {
     public class GenericService<TEntity, TCreateDto, TUpdateDto, TDto>
-       where TEntity : class
+     where TEntity : class
     {
         protected readonly IGenericRepository<TEntity> _repo;
         protected readonly IMapper _mapper;
@@ -33,13 +34,17 @@ namespace ZeyMer.Application.Services
             if (entity == null) return default;
 
             _mapper.Map(dto, entity);
-            var updated = await _repo.UpdateAsync(entity);
-            return _mapper.Map<TDto>(updated);
+            await _repo.UpdateAsync(entity); // void olduğu için sadece çağırıyoruz
+            return _mapper.Map<TDto>(entity); // Zaten elimizde entity var
         }
 
         public virtual async Task<bool> DeleteAsync(Guid id)
         {
-            return await _repo.DeleteAsync(id);
+            var entity = await _repo.GetByIdAsync(id);
+            if (entity == null) return false;
+
+            await _repo.DeleteAsync(id);
+            return true; // Başarılıysa true döndürüyoruz
         }
 
         public virtual async Task<List<TDto>> GetAllAsync()

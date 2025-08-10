@@ -12,10 +12,10 @@ namespace ZeyMer.Application.Helper
 {
     public static class JwtHelper
     {
-        public static string GenerateToken(User user, string secretKey, string issuer, string audience)
+        public static string GenerateToken(User user, string SecretKey, string issuer, string audience)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(secretKey);
+            var key = Encoding.ASCII.GetBytes(SecretKey);
 
             var claims = new List<Claim>
     {

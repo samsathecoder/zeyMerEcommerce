@@ -82,6 +82,7 @@ using ZeyMer.Application.Helper;
             user.Id = Guid.NewGuid();
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
+            user.Role = "Customer"; 
 
             user.CreatedAt = DateTime.UtcNow;
 

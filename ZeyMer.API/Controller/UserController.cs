@@ -42,7 +42,7 @@ namespace ZeyMer.API.Controller
             if (user == null)
                 return Unauthorized(new { message = "Email veya şifre hatalı" });
 
-            var jwtSettings = _configuration.GetSection("JwtSettings");
+            var jwtSettings = _configuration.GetSection("Jwt");
             var secretKey = jwtSettings.GetValue<string>("SecretKey");
             var issuer = jwtSettings.GetValue<string>("Issuer");
             var audience = jwtSettings.GetValue<string>("Audience");

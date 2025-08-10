@@ -1,27 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+
 using ZeyMer.Application.Interfaces;
+using ZeyMer.Domain.Dtos.Category;
 using ZeyMer.Domain.Entities;
 using ZeyMer.Domain.Repositories;
 
 
 namespace ZeyMer.Application.Services
     {
-        public class CategoryService : ICategoryService
-        {
+    public class CategoryService : GenericService<Category, CategoryDto,CategoryUpdateDto,CategoryCreateDto>, ICategoryService
+    {
             private readonly ICategoryRepository _categoryRepository;
             private readonly IUnitOfWork _unitOfWork;
 
-            public CategoryService(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
-            {
+            public CategoryService(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork,IMapper mapper)
+            :base (categoryRepository,mapper) 
+              {
                 _categoryRepository = categoryRepository;
                 _unitOfWork = unitOfWork;
             }
 
-            public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
+    
+
+        public async Task<List<CategoryDto>> GetAllAsync()
+        {
+            var categories = await _categoryRepository.GetAllAsync();
+            return _mapper.Map<List<CategoryDto>>(categories);
+        }
+
+        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
             {
                 return await _categoryRepository.GetAllAsync();
             }

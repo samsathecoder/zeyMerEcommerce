@@ -32,27 +32,7 @@ namespace ZeyMer.API.Controller
     
     
 
-        [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetById(Guid id)
-        {
-            var product = await _productService.GetByIdAsync(id);
-            if (product == null) return NotFound();
-            return Ok(product);
-        }
-
-        [HttpGet("slug/{slug}")]
-        public async Task<IActionResult> GetBySlug(string slug)
-        {
-            var product = await _productService.GetBySlugAsync(slug);
-            if (product == null) return NotFound();
-            return Ok(product);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(Product product)
-        {
-            var createdProduct = await _productService.AddAsync(product);
-            return CreatedAtAction(nameof(GetById), new { id = createdProduct.Id }, createdProduct);
-        }
+    
+    
     }
 }

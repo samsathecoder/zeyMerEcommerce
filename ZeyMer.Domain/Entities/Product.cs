@@ -23,7 +23,7 @@ namespace ZeyMer.Domain.Entities
         public int LikeCount { get; set; } = 0;
 
         public Guid CategoryId { get; set; }
-        public Category Category { get; set; }
+        public Category CategoryName { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
